@@ -3,193 +3,657 @@
 <head>
   <meta charset="utf-8">
   
+  <!-- 引入Google Fonts（现代无衬线字体） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <title>Hexo</title>
+  <title>yejp的智能座舱博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
+  <meta property="og:title" content="yejp的智能座舱博客">
+  <meta property="og:url" content="https://17370438720.github.io/">
+  <meta property="og:site_name" content="yejp的智能座舱博客">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:author" content="yejp">
+  <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="yejp的智能座舱博客" type="application/atom+xml">
+  <link rel="shortcut icon" href="/favicon.png">
   
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <!-- 核心样式 -->
+  <style>
+    /* 全局颜色变量（科技风配色） */
+    :root {
+      --primary: #6c63ff; /* 主色：科技紫 */
+      --secondary: #0d1126; /* 辅助色：深灰蓝 */
+      --accent: #00f0ff; /* 强调色：霓虹青 */
+      --text: #f5f7fa; /* 文字色：浅灰 */
+      --text-light: #b0b7c3; /* 浅色文字 */
+      --bg: #0a0f25; /* 背景色：深空黑 */
+      --card-bg: #12193c; /* 卡片背景：暗紫蓝 */
+      --border: rgba(108, 99, 255, 0.2); /* 边框色 */
+    }
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    /* 全局重置与基础样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+    html {
+      scroll-behavior: smooth; /* 平滑滚动 */
+    }
 
-<meta name="generator" content="Hexo 8.1.1"></head>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      /* 背景粒子装饰 */
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(0, 240, 255, 0.05) 0%, transparent 30%);
+    }
+
+    /* 动画定义 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.8; }
+      50% { opacity: 0.4; }
+      100% { opacity: 0.8; }
+    }
+
+    /* 头部样式 */
+    #header {
+      background: linear-gradient(135deg, var(--secondary), var(--card-bg));
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.2);
+      position: relative;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    #banner {
+      height: 80px;
+      position: relative;
+    }
+
+    /* 头部装饰元素 */
+    .decor-element {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      opacity: 0.1;
+      filter: blur(20px);
+      z-index: 0;
+      animation: pulse 4s infinite;
+    }
+
+    #header-outer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #header-title {
+      padding: 20px 0;
+    }
+
+    #logo-wrap {
+      margin: 0;
+    }
+
+    #logo {
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      text-decoration: none;
+    }
+
+    #header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0 20px;
+    }
+
+    #main-nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .main-nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .main-nav-link:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .main-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .main-nav-link:hover::after {
+      width: 100%;
+    }
+
+    #sub-nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-icon {
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-icon:hover {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    #search-form-wrap {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-form-input {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text);
+      flex: 1;
+      max-width: 300px;
+      transition: all 0.3s ease;
+    }
+
+    .search-form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
+    }
+
+    .search-form-submit {
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      padding: 0 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-form-submit:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* 主体内容样式 */
+    .outer {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 30px;
+    }
+
+    #main {
+      flex: 1;
+    }
+
+    .article {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: all 0.4s ease;
+      animation: fadeIn 0.6s ease forwards;
+      animation-delay: 0.1s;
+    }
+
+    .article:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(108, 99, 255, 0.25);
+    }
+
+    .article-meta {
+      margin-bottom: 15px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .article-date {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .article-header h1 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .article-title {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .article-title:hover {
+      color: var(--accent);
+    }
+
+    .article-entry {
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .article-entry p {
+      margin-bottom: 15px;
+    }
+
+    .article-entry h1,
+    .article-entry h2,
+    .article-entry h3 {
+      color: var(--accent);
+      margin: 25px 0 15px;
+    }
+
+    .article-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .article-share-link {
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .article-share-link:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* 侧边栏样式 */
+    #sidebar {
+      width: 300px;
+      animation: fadeIn 0.6s ease forwards;
+      animation-delay: 0.2s;
+    }
+
+    .widget-wrap {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .widget-title {
+      color: var(--accent);
+      margin-bottom: 15px;
+      font-size: 18px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .widget-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    .archive-list {
+      list-style: none;
+    }
+
+    .archive-list-item {
+      margin-bottom: 10px;
+    }
+
+    .archive-list-link {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .archive-list-link:hover {
+      color: var(--accent);
+      padding-left: 5px;
+    }
+
+    .widget ul {
+      list-style: none;
+    }
+
+    .widget ul li {
+      margin-bottom: 12px;
+    }
+
+    .widget ul li a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .widget ul li a:hover {
+      color: var(--accent);
+      padding-left: 5px;
+    }
+
+    /* 页脚样式 */
+    #footer {
+      background: linear-gradient(135deg, var(--secondary), var(--card-bg));
+      box-shadow: 0 -4px 20px rgba(108, 99, 255, 0.1);
+      padding: 40px 0;
+      margin-top: 60px;
+      animation: fadeIn 0.6s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    #footer-info {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-align: center;
+      color: var(--text-light);
+    }
+
+    #footer-info a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    #footer-info a:hover {
+      color: var(--accent);
+    }
+
+    /* 回到顶部按钮 */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s, background 0.3s;
+      transform: scale(0.8);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.5);
+      z-index: 999;
+      font-size: 18px;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #back-to-top:hover {
+      background: var(--accent);
+      box-shadow: 0 6px 16px rgba(0, 240, 255, 0.6);
+    }
+
+    /* 移动端适配（保留原有功能） */
+    #mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      padding: 10px 0;
+      z-index: 998;
+    }
+
+    #mobile-nav a {
+      display: inline-block;
+      width: 50%;
+      text-align: center;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .outer {
+        flex-direction: column;
+      }
+      #sidebar {
+        width: 100%;
+      }
+      #main-nav, #sub-nav .nav-search-btn {
+        display: none;
+      }
+      #mobile-nav {
+        display: block;
+      }
+    }
+
+    /* Fancybox样式优化 */
+    .fancybox-container {
+      z-index: 9999;
+    }
+    .fancybox-bg {
+      background: rgba(10, 15, 37, 0.95);
+    }
+    .fancybox-caption {
+      color: var(--text);
+      background: rgba(18, 25, 60, 0.8);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 20px;
+    }
+  </style>
+  
+  <!-- 第三方资源 -->
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  
+  <meta name="generator" content="Hexo 8.1.1">
+</head>
 
 <body>
   <div id="container">
     <div id="wrap">
       <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
+        <div id="banner">
+          <!-- 头部装饰元素 -->
+          <div class="decor-element"></div>
+        </div>
+        <div id="header-outer" class="outer">
+          <div id="header-title" class="inner">
+            <h1 id="logo-wrap">
+              <a href="/" id="logo">yejp的智能座舱博客</a>
+            </h1>
+          </div>
+          <div id="header-inner" class="inner">
+            <nav id="main-nav">
+              <a class="main-nav-link" href="/">首页</a>
+              <a class="main-nav-link" href="/archives">归档</a>
+            </nav>
+            <nav id="sub-nav">
+              <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+              <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+            </nav>
+            <div id="search-form-wrap">
+              <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+                <input type="search" name="q" class="search-form-input" placeholder="搜索文章...">
+                <button type="submit" class="search-form-submit">&#xF002;</button>
+                <input type="hidden" name="sitesearch" value="https://17370438720.github.io/">
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
 
       <div class="outer">
         <section id="main">
-  
-    <article id="post-健身敬业分享" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/" class="article-date">
-  <time class="dt-published" datetime="2025-11-12T04:36:49.000Z" itemprop="datePublished">2025-11-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          <article id="post-健身敬业分享" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="article-meta">
+              <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/" class="article-date">
+                <time class="dt-published" datetime="2025-11-12T04:36:49.000Z" itemprop="datePublished">2025-11-12</time>
+              </a>
+            </div>
+            <div class="article-inner">
+              <header class="article-header">
+                <h1 itemprop="name">
+                  <a class="p-name article-title" href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">健身敬业分享</a>
+                </h1>
+              </header>
+              <div class="e-content article-entry" itemprop="articleBody">
+                <p>你好，我是内容分享者yejp～<br># 健身就该练腿，看看腿肌训练干货，中午练完刚好补充能量！</p>
+                <p>1. 深蹲：每组12次，做4组，重量循序渐进<br>2. 弓步蹲：左右腿各10次，3组<br>3. 腿弯举：针对腘绳肌，每组15次，3组</p>
+                <p>练后补充蛋白质+碳水，恢复更快～</p>
+              </div>
+              <footer class="article-footer">
+                <a data-url="https://17370438720.github.io/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/" data-id="cuidjnzaW4d1BDwWYUdXXb1e1" data-title="健身敬业分享" class="article-share-link"><span class="fa fa-share">分享</span></a>
+              </footer>
+            </div>
+          </article>
+        </section>
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">&#39;健身敬业分享&#39;</a>
-    </h1>
-  
+        <aside id="sidebar">
+          <div class="widget-wrap">
+            <h3 class="widget-title">归档</h3>
+            <div class="widget">
+              <ul class="archive-list">
+                <li class="archive-list-item">
+                  <a class="archive-list-link" href="/archives/2025/11/">November 2025 <span style="color: var(--text-light);">1篇</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>你好，我是内容？？<br>#健身就该练腿，看看腿，你好中午了</p>
+          <div class="widget-wrap">
+            <h3 class="widget-title">最新文章</h3>
+            <div class="widget">
+              <ul>
+                <li>
+                  <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">健身敬业分享</a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/" data-id="cuidjnzaW4d1BDwWYUdXXb1e1" data-title="&#39;健身敬业分享&#39;" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">November 2025</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">&#39;健身敬业分享&#39;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
+          <div class="widget-wrap">
+            <h3 class="widget-title">关于博主</h3>
+            <div class="widget">
+              <p style="color: var(--text-light);">专注智能座舱技术+健身分享<br>持续输出干货内容～</p>
+            </div>
+          </div>
+        </aside>
       </div>
+
       <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+        <div class="outer">
+          <div id="footer-info" class="inner">
+            &copy; 2025 yejp<br>
+            Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> | 科技风主题定制
+          </div>
+        </div>
+      </footer>
     </div>
-  </div>
-</footer>
 
-    </div>
+    <!-- 移动端导航 -->
     <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
+      <a href="/" class="mobile-nav-link">首页</a>
+      <a href="/archives" class="mobile-nav-link">归档</a>
+    </nav>
 
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+    <!-- 回到顶部按钮 -->
+    <div id="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
   </div>
+
+  <!-- 第三方JS -->
+  <script src="/js/jquery-3.6.4.min.js"></script>
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+  <script src="/js/script.js"></script>
+
+  <!-- 自定义交互JS -->
+  <script>
+    // 搜索框显示/隐藏
+    $('.nav-search-btn').click(function() {
+      $('#search-form-wrap').slideToggle(300);
+    });
+
+    // 回到顶部按钮逻辑
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 文章图片Fancybox绑定
+    $(document).ready(function() {
+      $('.article-entry img').each(function() {
+        $(this).wrap(`<a href="${this.src}" data-fancybox="article-images" data-caption="${this.alt || '文章图片'}"></a>`);
+      });
+    });
+  </script>
 </body>
 </html>
