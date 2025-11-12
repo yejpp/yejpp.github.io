@@ -6,16 +6,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="确保导入了jar aar的SDK 并做好build.gradle.kts配置 Manifest中编写权限、动态申请权限、   12345678            android:name&#x3D;&quot;com.amap.api.v2.apikey&quot;            android:value&#x3D;&quot;你的key&quot; &#x2F;&gt; &lt;!-- 定位权限 --&gt;">
+  <meta name="description" content="确保导入了jar aar的SDK 并做好build.gradle.kts配置 Manifest中编写权限、动态申请权限、 核心代码与配置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2025/11/12/%E9%AB%98%E5%BE%B7SDK%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B8%A6%E5%AF%BC%E8%88%AA/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="确保导入了jar aar的SDK 并做好build.gradle.kts配置 Manifest中编写权限、动态申请权限、   12345678            android:name&#x3D;&quot;com.amap.api.v2.apikey&quot;            android:value&#x3D;&quot;你的key&quot; &#x2F;&gt; &lt;!-- 定位权限 --&gt;">
+<meta property="og:description" content="确保导入了jar aar的SDK 并做好build.gradle.kts配置 Manifest中编写权限、动态申请权限、 核心代码与配置">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-11-12T06:24:29.000Z">
-<meta property="article:modified_time" content="2025-11-12T06:31:04.538Z">
+<meta property="article:modified_time" content="2025-11-12T06:40:40.390Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="下一篇写怎么嵌入导航以及自定义效果">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -88,11 +89,13 @@
         <ol>
 <li>确保导入了jar aar的SDK 并做好build.gradle.kts配置</li>
 <li>Manifest中编写权限、动态申请权限、</li>
-<li></li>
+<li>核心代码与配置</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">            android:name=&quot;com.amap.api.v2.apikey&quot;</span><br><span class="line">            android:value=&quot;你的key&quot; /&gt; &lt;!-- 定位权限 --&gt;</span><br><span class="line">        &lt;service android:name=&quot;com.amap.api.location.APSService&quot; /&gt;</span><br><span class="line">&lt;!--声明导航的Activity--&gt;</span><br><span class="line">        &lt;activity</span><br><span class="line">            android:name=&quot;com.amap.api.navi.AmapRouteActivity&quot;</span><br><span class="line">            android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</span><br><span class="line">            android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">   // 初始化高德隐私协议（必须调用，否则SDK无法使用）</span><br><span class="line">        MapsInitializer.updatePrivacyAgree(this, true)</span><br><span class="line">        MapsInitializer.updatePrivacyShow(this, true, true)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private val endPoi = Poi(</span><br><span class="line">        &quot;天安门&quot;,</span><br><span class="line">        LatLng(39.908823 ,116.397470),</span><br><span class="line">        &quot;&quot; //可选poId</span><br><span class="line">    )</span><br><span class="line">    private val startPoi = Poi(</span><br><span class="line">        &quot;天安门&quot;,</span><br><span class="line">        LatLng(39.900883 ,116.397400),</span><br><span class="line">        &quot;&quot; //可选poId</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">//核心方法如下，最后记得再destroy中销毁防止内存泄漏</span><br><span class="line">    fun startNavigation()&#123;</span><br><span class="line">        val params1 = AmapNaviParams(startPoi,null,endPoi,</span><br><span class="line">            AmapNaviType.DRIVER , AmapPageType.ROUTE)</span><br><span class="line">        //启动导航页面</span><br><span class="line">        AmapNaviPage.getInstance().showRouteActivity(applicationContext , params1 , null)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><figcaption><span><meta-data</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">            android:name=&quot;com.amap.api.v2.apikey&quot;</span><br><span class="line">            android:value=&quot;你的key&quot; /&gt; <span class="comment">&lt;!-- 定位权限 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">&quot;com.amap.api.location.APSService&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--声明导航的Activity--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.amap.api.navi.AmapRouteActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:configChanges</span>=<span class="string">&quot;orientation|keyboardHidden|screenSize&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:theme</span>=<span class="string">&quot;@android:style/Theme.NoTitleBar&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>中午吃了兰州牛肉炒面<br>晚上准备吃盖浇饭</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 初始化高德隐私协议（必须调用，否则SDK无法使用）</span></span><br><span class="line">        MapsInitializer.updatePrivacyAgree(<span class="built_in">this</span>, <span class="literal">true</span>)</span><br><span class="line">        MapsInitializer.updatePrivacyShow(<span class="built_in">this</span>, <span class="literal">true</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">val</span> <span class="variable">endPoi</span> <span class="operator">=</span> Poi(</span><br><span class="line">        <span class="string">&quot;天安门&quot;</span>,</span><br><span class="line">        LatLng(<span class="number">39.908823</span> ,<span class="number">116.397470</span>),</span><br><span class="line">        <span class="string">&quot;&quot;</span> <span class="comment">//可选poId</span></span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">private</span> <span class="type">val</span> <span class="variable">startPoi</span> <span class="operator">=</span> Poi(</span><br><span class="line">        <span class="string">&quot;天安门&quot;</span>,</span><br><span class="line">        LatLng(<span class="number">39.900883</span> ,<span class="number">116.397400</span>),</span><br><span class="line">        <span class="string">&quot;&quot;</span> <span class="comment">//可选poId</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="comment">//核心方法如下，最后记得再destroy中销毁防止内存泄漏</span></span><br><span class="line">    fun <span class="title function_">startNavigation</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">params1</span> <span class="operator">=</span> AmapNaviParams(startPoi,<span class="literal">null</span>,endPoi,</span><br><span class="line">            AmapNaviType.DRIVER , AmapPageType.ROUTE)</span><br><span class="line">        <span class="comment">//启动导航页面</span></span><br><span class="line">        AmapNaviPage.getInstance().showRouteActivity(applicationContext , params1 , <span class="literal">null</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -101,6 +104,8 @@
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%8B%E4%B8%80%E7%AF%87%E5%86%99%E6%80%8E%E4%B9%88%E5%B5%8C%E5%85%A5%E5%AF%BC%E8%88%AA%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%88%E6%9E%9C/" rel="tag">下一篇写怎么嵌入导航以及自定义效果</a></li></ul>
+
     </footer>
   </div>
   
@@ -110,7 +115,7 @@
   
     <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">&#39;健身敬业分享&#39;</div>
+      <div class="article-nav-title">&#39;健身经验分享&#39;</div>
     </a>
   
 </nav>
@@ -127,9 +132,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%8B%E4%B8%80%E7%AF%87%E5%86%99%E6%80%8E%E4%B9%88%E5%B5%8C%E5%85%A5%E5%AF%BC%E8%88%AA%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%88%E6%9E%9C/" rel="tag">下一篇写怎么嵌入导航以及自定义效果</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E4%B8%8B%E4%B8%80%E7%AF%87%E5%86%99%E6%80%8E%E4%B9%88%E5%B5%8C%E5%85%A5%E5%AF%BC%E8%88%AA%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%88%E6%9E%9C/" style="font-size: 10px;">下一篇写怎么嵌入导航以及自定义效果</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -152,7 +171,7 @@
           </li>
         
           <li>
-            <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">&#39;健身敬业分享&#39;</a>
+            <a href="/2025/11/12/%E5%81%A5%E8%BA%AB%E6%95%AC%E4%B8%9A%E5%88%86%E4%BA%AB/">&#39;健身经验分享&#39;</a>
           </li>
         
       </ul>
