@@ -1344,3 +1344,46 @@ pre .javascript .function {
   margin-right: 5px;
   display: inline-block;
 }
+/* 1. 修复归档区域排版（元素贴靠问题） */
+.widget-wrap {
+  margin-bottom: 24px;
+  padding: 20px;
+}
+.archive-list-item, .widget ul li {
+  margin-bottom: 12px;
+}
+.archive-list-link, .widget ul li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 2. 确保笔记详情页（文章页）样式与首页一致 */
+.article, .post { /* 兼容不同模板的类名 */
+  background: var(--card-bg) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15) !important;
+  padding: 30px !important;
+  margin-bottom: 30px !important;
+  transition: all 0.4s ease !important;
+}
+.article:hover, .post:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 12px 40px rgba(108, 99, 255, 0.25) !important;
+}
+.article-header h1, .post-header h1 {
+  color: var(--primary) !important;
+  margin-bottom: 20px !important;
+  font-size: 24px !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* 3. 移动端响应式兜底 */
+@media (max-width: 768px) {
+  .outer {
+    flex-direction: column !important;
+  }
+  #sidebar {
+    width: 100% !important;
+  }
+}
